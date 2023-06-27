@@ -1,6 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0hbkncbrkwle"]
+[gd_scene load_steps=6 format=3 uid="uid://b0hbkncbrkwle"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_fy38i"]
+[ext_resource type="Shader" path="res://Player/player.gdshader" id="2_2sgao"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tcudq"]
+shader = ExtResource("2_2sgao")
+shader_parameter/main_color = Color(0.682353, 1, 0.290196, 1)
+shader_parameter/damaged_color = Color(0.306225, 0.45, 0.1305, 1)
+shader_parameter/radial_slider = 1.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6dg8x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pikak"]
 
@@ -8,9 +17,12 @@
 script = ExtResource("1_fy38i")
 
 [node name="PlayerBody" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_tcudq")
+texture = SubResource("CanvasTexture_6dg8x")
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_pikak")
 
 [node name="Camera2D" type="Camera2D" parent="."]
