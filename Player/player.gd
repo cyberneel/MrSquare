@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 @export var move_speed : float = 300.0
 @export var rotation_speed : float = 20.0
-@export var dash_speed_multiplier : float = 2.0
-@export var dash_time : float = 1.0;
-@export var dash_cooldown : float = 1.5
+@export var dash_speed_multiplier : float = 4.0
+@export var dash_time : float = 0.5
+@export var dash_cooldown : float = 0.75
 
 @onready var DashTimer : Timer = $DashTimer
 @onready var DashCooldownTimer : Timer = $DashCooldownTimer
@@ -49,10 +49,15 @@ func handle_movement(input_vector, delta):
 		point_toward = input_vector
 		
 	rotation = lerp_angle(rotation, point_toward.angle(), delta * rotation_speed)
-	velocity = move_speed * input_vector.normalized() * (dash_speed_multiplier if dashing else 1.0)
+	var move_dir = Vector2(cos(rotation), sin(rotation))
+	var move_strength = (1.0 if input_vector.length_squared() > 0 else 0.0)
 	if(dashing):
-		$PlayerBody.scale.y = 0.5
+		move_strength = 1
+	
+	velocity = move_speed * move_dir * (dash_speed_multiplier if dashing else 1.0) * move_strength
+	if(dashing):
+		$PlayerBody.scale.y = move_toward($PlayerBody.scale.y, 0.5, delta * 4)
 	else:
-		$PlayerBody.scale.y = 1
+		$PlayerBody.scale.y = move_toward($PlayerBody.scale.y, 1, delta * 4)
 		
 	move_and_slide()
