@@ -5,17 +5,21 @@ extends CharacterBody2D
 @export var dash_speed_multiplier : float = 4.0
 @export var dash_time : float = 0.5
 @export var dash_cooldown : float = 0.75
+@export var player_bounds : Vector2 = Vector2(1280, 720)
+@export var player_starting_health : float = 100.0
 
 @onready var DashTimer : Timer = $DashTimer
 @onready var DashCooldownTimer : Timer = $DashCooldownTimer
 @onready var GunHolder : Node2D = $GunHolder
+@onready var PlayerBody : Polygon2D = $PlayerBody
 
 var dashing : bool = false
 var point_toward : Vector2 = Vector2.ZERO
+@export var health : float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	health = player_starting_health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -32,6 +36,9 @@ func _physics_process(delta):
 	GunHolder.rotation = (get_global_mouse_position() - position).angle() - rotation
 	
 	handle_movement(input_vector, delta)
+	
+	PlayerBody.material.set_shader_parameter("radial_slider", health / player_starting_health)
+	
 	
 func handle_dash():
 	if(Input.is_action_just_pressed("MoveDash") && DashTimer.is_stopped() && DashCooldownTimer.is_stopped()):
@@ -56,8 +63,17 @@ func handle_movement(input_vector, delta):
 	
 	velocity = move_speed * move_dir * (dash_speed_multiplier if dashing else 1.0) * move_strength
 	if(dashing):
-		$PlayerBody.scale.y = move_toward($PlayerBody.scale.y, 0.5, delta * 4)
+		PlayerBody.scale.y = move_toward(PlayerBody.scale.y, 0.5, delta * 4)
 	else:
-		$PlayerBody.scale.y = move_toward($PlayerBody.scale.y, 1, delta * 4)
+		PlayerBody.scale.y = move_toward(PlayerBody.scale.y, 1, delta * 4)
 		
 	move_and_slide()
+	
+	if(position.x < 0):
+		position.x = 0
+	if(position.y < 0):
+		position.y = 0
+	if(position.x > player_bounds.x):
+		position.x = player_bounds.x
+	if(position.y > player_bounds.y):
+		position.y = player_bounds.y

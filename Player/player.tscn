@@ -8,6 +8,7 @@ shader = ExtResource("2_2sgao")
 shader_parameter/main_color = Color(0.682353, 1, 0.290196, 1)
 shader_parameter/damaged_color = Color(0.306225, 0.45, 0.1305, 1)
 shader_parameter/radial_slider = 1.0
+shader_parameter/radial_offset = Vector2(0, 0)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_6dg8x"]
 

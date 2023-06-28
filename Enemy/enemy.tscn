@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8arshqdt5ask"]
+
+[ext_resource type="Texture2D" uid="uid://dp67ori43fkym" path="res://Enemy/circle.png" id="1_8wit2"]
+[ext_resource type="Script" path="res://Enemy/enemy.gd" id="1_agkvi"]
+[ext_resource type="Shader" path="res://Player/player.gdshader" id="2_ehsjh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_51e8k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7aal"]
+shader = ExtResource("2_ehsjh")
+shader_parameter/main_color = Color(1, 0.286275, 0.223529, 1)
+shader_parameter/damaged_color = Color(0.53, 0.15105, 0.1166, 1)
+shader_parameter/radial_slider = 1.0
+shader_parameter/radial_offset = Vector2(-0.5, -0.5)
+
+[node name="Enemy" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_agkvi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_51e8k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_y7aal")
+scale = Vector2(0.005, 0.005)
+texture = ExtResource("1_8wit2")
+
+[node name="DamageRateTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
