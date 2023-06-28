@@ -3,6 +3,7 @@ shader_type canvas_item;
 uniform vec4 main_color : source_color;
 uniform vec4 damaged_color : source_color;
 uniform float radial_slider : hint_range(0.0, 1.0);
+uniform vec2 radial_offset = vec2(0, 0);
 
 float remap(float value, float low1, float high1, float low2, float high2)
 {
@@ -11,7 +12,7 @@ float remap(float value, float low1, float high1, float low2, float high2)
 
 void fragment() {
 	// Place fragment code here.
-	float radial = atan(UV.x, UV.y);
+	float radial = atan(UV.x + radial_offset.x, UV.y + radial_offset.y);
 	radial = remap(radial, -PI, PI, 0.0, 1.0);
 	vec4 value;
 	if(radial < radial_slider)
@@ -22,5 +23,6 @@ void fragment() {
 	{
 		value = damaged_color;
 	}
+	value.a = texture(TEXTURE, UV).a;
 	COLOR = value;
 }
