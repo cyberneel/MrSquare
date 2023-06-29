@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0hbkncbrkwle"]
+[gd_scene load_steps=7 format=3 uid="uid://b0hbkncbrkwle"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_fy38i"]
 [ext_resource type="Shader" path="res://Player/player.gdshader" id="2_2sgao"]
+[ext_resource type="Script" path="res://Player/GunHolder.gd" id="3_iu5a8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tcudq"]
 shader = ExtResource("2_2sgao")
@@ -38,6 +39,7 @@ one_shot = true
 
 [node name="GunHolder" type="Node2D" parent="."]
 scale = Vector2(0.68, 0.32)
+script = ExtResource("3_iu5a8")
 
 [node name="Gun" type="Polygon2D" parent="GunHolder"]
 position = Vector2(10, 0)

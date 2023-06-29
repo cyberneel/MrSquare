@@ -51,6 +51,9 @@ func _on_dash_timer_timeout():
 	DashCooldownTimer.wait_time = dash_cooldown
 	DashCooldownTimer.start()
 	
+func _take_damage(damage : float):
+	health -= damage
+	
 func handle_movement(input_vector, delta):
 	if(input_vector != Vector2.ZERO):
 		point_toward = input_vector
