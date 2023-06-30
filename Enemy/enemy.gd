@@ -22,6 +22,8 @@ func _process(delta):
 		DamageRateTimer.start()
 		
 	sprite.material.set_shader_parameter("radial_slider", health / enemy_starting_health)
+	if(health <= 0):
+		queue_free()
 	
 func _take_damage(damage : float):
 	health -= damage
