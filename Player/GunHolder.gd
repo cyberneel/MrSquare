@@ -11,6 +11,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	global_rotation = (get_global_mouse_position() - global_position).angle()
+	
 	if(Input.is_action_just_pressed("Shoot")):
 		print("shoot")
 		var bullet = bullet_scene.instantiate()

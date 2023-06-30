@@ -33,8 +33,6 @@ func _physics_process(delta):
 	
 	handle_dash()
 	
-	GunHolder.rotation = (get_global_mouse_position() - position).angle() - rotation
-	
 	handle_movement(input_vector, delta)
 	
 	PlayerBody.material.set_shader_parameter("radial_slider", health / player_starting_health)
