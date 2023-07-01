@@ -9,14 +9,16 @@ extends Area2D
 @onready var sprite : Sprite2D = $Sprite2D
 
 var player = null
+var entered_body = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = enemy_starting_health
+	player = get_node("/root/World/Player")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if(player != null && DamageRateTimer.is_stopped()):
+	if(entered_body == player && DamageRateTimer.is_stopped()):
 		player.set("health", player.get("health") - 20)
 		DamageRateTimer.wait_time = damage_rate
 		DamageRateTimer.start()
@@ -29,8 +31,8 @@ func _take_damage(damage : float):
 	health -= damage
 
 func _on_body_entered(body):
-	player = body
+	entered_body = body
 	
 func _on_body_exited(body):
-	if(body == player):
-		player = null
+	if(body == entered_body):
+		entered_body = null
