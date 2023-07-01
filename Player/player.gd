@@ -17,26 +17,25 @@ var dashing : bool = false
 var point_toward : Vector2 = Vector2.ZERO
 @export var health : float = 0.0
 
+var input_vector : Vector2
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = player_starting_health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
-	
-func _physics_process(delta):
-	var input_vector = Vector2(
+	input_vector = Vector2(
 		Input.get_action_strength("MoveRight") - Input.get_action_strength("MoveLeft"),
 		Input.get_action_strength("MoveDown") - Input.get_action_strength("MoveUp"),
 	)
 	
-	handle_dash()
-	
-	handle_movement(input_vector, delta)
-	
 	PlayerBody.material.set_shader_parameter("radial_slider", health / player_starting_health)
 	
+func _physics_process(delta):	
+	handle_dash()
+	
+	handle_movement(input_vector, delta)	
 	
 func handle_dash():
 	if(Input.is_action_just_pressed("MoveDash") && DashTimer.is_stopped() && DashCooldownTimer.is_stopped()):
