@@ -22,3 +22,4 @@ func _process(delta):
 func _on_area_entered(area):
 	if(area.has_method("_take_damage")):
 		area._take_damage(damage)
+		queue_free()
