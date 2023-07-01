@@ -5,7 +5,8 @@ extends CharacterBody2D
 @export var dash_speed_multiplier : float = 4.0
 @export var dash_time : float = 0.5
 @export var dash_cooldown : float = 0.75
-@export var player_bounds : Vector2 = Vector2(1280, 720)
+@export var player_bounds_min : Vector2 = Vector2(17, 16)
+@export var player_bounds_max : Vector2 = Vector2(1263, 704)
 @export var player_starting_health : float = 100.0
 
 @onready var DashTimer : Timer = $DashTimer
@@ -69,11 +70,11 @@ func handle_movement(input_vector, delta):
 		
 	move_and_slide()
 	
-	if(position.x < 0):
-		position.x = 0
-	if(position.y < 0):
-		position.y = 0
-	if(position.x > player_bounds.x):
-		position.x = player_bounds.x
-	if(position.y > player_bounds.y):
-		position.y = player_bounds.y
+	if(position.x < player_bounds_min.x):
+		position.x = player_bounds_min.x
+	if(position.y < player_bounds_min.y):
+		position.y = player_bounds_min.y
+	if(position.x > player_bounds_max.x):
+		position.x = player_bounds_max.x
+	if(position.y > player_bounds_max.y):
+		position.y = player_bounds_max.y
